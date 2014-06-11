@@ -71,7 +71,7 @@ L-->
 	<dependency>
 	  <groupId>org.apache.struts</groupId>
 	  <artifactId>struts2-core</artifactId>
-	  <version>2.3.15.1</version>
+	  <version>2.3.16.3</version>
 		      <exclusions>
 			<exclusion> 
 				<groupId>javax.sql</groupId>
@@ -82,17 +82,17 @@ L-->
 	<dependency>
 		  <groupId>org.apache.struts</groupId>
 		  <artifactId>struts2-dojo-plugin</artifactId>
-		  <version>2.3.15.1</version>
+		  <version>2.3.16.3</version>
 	</dependency>	
 	<dependency>
 		  <groupId>org.apache.struts</groupId>
 		  <artifactId>struts2-dwr-plugin</artifactId>
-		  <version>2.3.15.1</version>
+		  <version>2.3.16.3</version>
 	</dependency>
 	<dependency>
 		  <groupId>org.apache.struts</groupId>
 		  <artifactId>struts2-tiles3-plugin</artifactId>
-		  <version>2.3.15.1</version>
+		  <version>2.3.16.3</version>
 		      <exclusions>
 			<exclusion> 
 				<groupId>org.apache.tiles</groupId>
@@ -115,7 +115,7 @@ L-->
 	<dependency>
 		<groupId>org.apache.struts</groupId>
 		<artifactId>struts2-tiles-plugin</artifactId>
-		<version>2.3.15.1</version>
+		<version>2.3.16.3</version>
 	</dependency>
 	<dependency>
 		<groupId>org.apache.tiles</groupId>
