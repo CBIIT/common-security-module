@@ -86,11 +86,13 @@ public class MigrationDriver {
 	private void encryptDecryptUserInformation() throws  EncryptionException, SQLException
 	{
 			Connection connection = getConnection();
-			Statement stmt = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			//Statement stmt = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			connection.setAutoCommit(false);
 			ResultSet resultSet = null;
 			if("oracle".equals(DATABASE_TYPE)) {
-				 resultSet = stmt.executeQuery("SELECT CSM_USER.* FROM CSM_USER FOR UPDATE");
+				 //resultSet = stmt.executeQuery("SELECT CSM_USER.* FROM CSM_USER FOR UPDATE");
+				 resultSet = stmt.executeQuery("SELECT CSM_USER.* FROM CSM_USER");
 			} else {
 				 resultSet = stmt.executeQuery("SELECT * FROM CSM_USER");
 			}

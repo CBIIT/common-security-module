@@ -163,6 +163,8 @@ public class RDBMSHelper {
 	 */
 	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
 	{
+		try
+		{
 		Connection connection = getConnection (connectionProperties);
 		if (connection == null)
 		{
@@ -183,7 +185,22 @@ public class RDBMSHelper {
 		{
 			return authenticateAndObtainSubject(connection, connectionProperties, userID, encryptedPassword, subject);
 		}
-
+		}
+		catch(CSInternalConfigurationException e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		catch(CSInternalInsufficientAttributesException e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 

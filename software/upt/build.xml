@@ -281,6 +281,7 @@ L-->
 
 <target name="buildEar" depends="prepareDirEar">
 	<copy  file="${basedir}/uptEAR/META-INF/application-template.xml" tofile="${build.home.ear}/META-INF/application.xml" overwrite="true"/>
+	<copy  file="${basedir}/uptEAR/META-INF/jboss-deployment-structure.xml" tofile="${build.home.ear}/META-INF/jboss-deployment-structure.xml" overwrite="true"/>
 	<copy todir="${build.home.ear}/META-INF">
 		<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
 	</copy>

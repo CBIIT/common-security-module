@@ -566,12 +566,12 @@ L-->
 		<attribute name="database.url" default="${database.url}" />
 		<attribute name="database.user" default="${database.user}" />
 		<attribute name="database.password" default="${database.password}" />
-		<attribute name="database.version" default="5.0.27" />
+		<attribute name="database.version" default="5.5.0" />
 		<attribute name="database.name" default="${database.name}" />
  		<attribute name="validation.pre.port.list" default="${validation.pre.port.list}" />
 		<attribute name="ant.check.version" default="1.8.0" />
-		<attribute name="java.check.version.major" default="1.6" />
-		<attribute name="java.check.version.minor" default="1.6.0" />
+		<attribute name="java.check.version.major" default="1.7" />
+		<attribute name="java.check.version.minor" default="1.7.0" />
 		<attribute name="property.template.file" default="${properties.template.file}"/>
 		<attribute name="envpropertyfile" default="${properties.file}"/>
 		<attribute name="jboss.ssl.enable" default="${jboss.ssl.enable}"/>
@@ -683,15 +683,15 @@ L-->
 
 	<!--
 	validate-environment macro validates host environment i.e the version of the installed ant, jdk.
-	usage: 	<validate-environment ant.check.version="1.8.0" java.check.version.major="1.6" java.check.version.minor="1.5.0_10"/>
+	usage: 	<validate-environment ant.check.version="1.8.0" java.check.version.major="1.7" java.check.version.minor="1.7.0"/>
 		ant.check.version is the version of ant. By default the ant version should be greater than 1.8.0
 		java.check.version.major is the major version of java. By default the major version should be greater than 1.5
 		java.check.version.minor is the minor version of java. By default the minor version should be greater than 1.5.0_10
 	-->
 	<macrodef name="validate-environment" description="Diagnose the host system before the installation">
 		<attribute name="ant.check.version" default="1.8.0" />
-		<attribute name="java.check.version.major" default="1.6" />
-		<attribute name="java.check.version.minor" default="1.6.0" />
+		<attribute name="java.check.version.major" default="1.7" />
+		<attribute name="java.check.version.minor" default="1.7.0" />
 		<sequential>
 			<!-- Echo the properties for diagnostic purposes -->
 			<echoproperties > <propertyset negate="yes" > <propertyref regex="passw" /> </propertyset> </echoproperties>
@@ -1419,7 +1419,7 @@ L-->
 		<attribute name="database.system.url" default="${database.system.url}" />
 		<attribute name="database.system.user" default="${database.system.user}" />
 		<attribute name="database.system.password" default="${database.system.password}" />
-		<attribute name="database.version" default="5.0.27" />
+		<attribute name="database.version" default="5.5.0" />
 		<attribute name="database.name" default="${database.name}" />
 		<attribute name="database.server" default="${database.server}" />
 		<attribute name="database.url" default="${database.url}" />
@@ -1517,7 +1517,7 @@ L-->
 		<attribute name="database.url" default="${database.url}" />
 		<attribute name="database.user" default="${database.user}" />
 		<attribute name="database.password" default="${database.password}" />
-		<attribute name="database.version" default="5.0.27" />
+		<attribute name="database.version" default="5.5.0" />
 		<attribute name="database.name" default="${database.name}" />
 		<attribute name="database.type" default="${database.type}" />
 		<attribute name="database.re-create" default="${database.re-create}" />
@@ -2502,7 +2502,7 @@ L-->
 		<attribute name="database.system.url" default="${database.system.url}" />
 		<attribute name="database.system.user" default="${database.system.user}" />
 		<attribute name="database.system.password" default="${database.system.password}" />
-		<attribute name="database.version" default="5.0.27" />
+		<attribute name="database.version" default="5.5.0" />
 		<attribute name="database.name" default="${database.name}" />
 		<attribute name="database.server" default="${database.server}" />
 		<attribute name="database.url" default="${database.url}" />
@@ -7248,7 +7248,7 @@ L-->
 		<attribute name="database.url" default="${database.url}" />
 		<attribute name="database.user" default="${database.user}" />
 		<attribute name="database.password" default="${database.password}" />
-		<attribute name="database.version" default="5.0.27" />
+		<attribute name="database.version" default="5.5.0" />
 		<attribute name="database.name" default="${database.name}" />
 		<attribute name="database.server" default="${database.server}"/>
 		<attribute name="database.port" default="${database.port}"/>
@@ -7360,8 +7360,8 @@ L-->
 
 	<macrodef name="validate-pre-install-common" description="Diagnose the host system before the installation">
 		<attribute name="ant.check.version" default="1.8.0" />
-		<attribute name="java.check.version.major" default="1.6" />
-		<attribute name="java.check.version.minor" default="1.6.0" />
+		<attribute name="java.check.version.major" default="1.7" />
+		<attribute name="java.check.version.minor" default="1.7.0" />
 		<attribute name="property.template.file" default="${properties.template.file}"/>
 		<attribute name="envpropertyfile" default="${properties.file}"/>
 		<attribute name="property.exclude.pattern.list" default="tomcat.*,jboss.*,grid.*"/>

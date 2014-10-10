@@ -182,6 +182,7 @@ public class LDAPHelper {
 		environment.clear();
 		environment.put(Context.INITIAL_CONTEXT_FACTORY, Constants.INITIAL_CONTEXT);
 		environment.put(Context.PROVIDER_URL, connectionProperties.get(Constants.LDAP_HOST));
+		//environment.put(Context.SECURITY_AUTHENTICATION, "simple");
 		environment.put(Context.SECURITY_AUTHENTICATION, "simple");
 		//if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps")) // removed to make it JDK 1.4 compatible
 		if (((String)connectionProperties.get(Constants.LDAP_HOST)).regionMatches(true, 0, "ldaps", 0, "ldaps".length()))
@@ -296,8 +297,10 @@ public class LDAPHelper {
 		{
 			environment.put(Context.SECURITY_PRINCIPAL, fullyDistinguishedName);
 			environment.put(Context.SECURITY_CREDENTIALS, password);
-			
+
+
 			DirContext initialDircontext = new InitialDirContext(environment);			
+
 			if (   ((String)connectionProperties.get(Constants.USER_FIRST_NAME) != null && !((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
 				&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) != null 	&& !((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
 				&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) != null 	&& !((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))

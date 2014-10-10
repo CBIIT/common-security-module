@@ -6477,7 +6477,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		//String passwordDesc = "The password has to be atleast 8 characters and have atleast a special character and atleast an uppercase letter";
 		try {
 			String passwordDesc = "Password should have: " + ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_DESCRIPTION");
-			System.out.println("Pattern: "+ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH"));
 			if(!StringUtilities.checkPatternMatches(password,ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH")))
 				throw new CSTransactionException(passwordDesc
 						);

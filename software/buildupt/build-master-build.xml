@@ -358,8 +358,7 @@ $HeadURL$
 		build:all,
 		dist:installer,
 		dist:upgrader,
-		dist:src,
-		dist:gui-installer
+		dist:src
 		">
 	</target>
 

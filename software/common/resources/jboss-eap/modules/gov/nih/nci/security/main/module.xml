@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<module xmlns="urn:jboss:module:1.1" name="gov.nih.nci.security">
+
+    <resources>
+        <resource-root path="csmapi-5.2.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="org.apache.log4j"/>
+        <module name="org.hibernate"/>
+        <module name="org.jdom"/>
+        <module name="org.slf4j.jcl-over-slf4j"/>
+    </dependencies>
+</module>

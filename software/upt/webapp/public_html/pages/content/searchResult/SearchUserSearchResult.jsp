@@ -24,7 +24,6 @@ L--%>
  	{
  		for(var j=0; j<associatedIds.length; j++)
 		{
-		
 			if(associatedIds[j].value == (key))
 			{
 				return true;
@@ -37,19 +36,18 @@ L--%>
 	{
 
   		var radioLen = document.SearchUserForm.userId.length;
-  		
   		 var isgroupform = false;
   		 var isapplicationform = false;
   		 var ischecked = false;
   		for(var looop = 0; looop < window.opener.document.forms.length; looop++)
   		{
-  			if(window.opener.document.forms[looop].name == "applicationForm")	isapplicationform = true;
+  			if(window.opener.document.forms[looop].name == "applicationForm")
+  				isapplicationform = true;
   			
   			if(window.opener.document.forms[looop].name == "GroupForm")
-  			{ isgroupform = true;
-
-  			}
-  			
+  			{ 
+  				isgroupform = true;
+			}
   		}
 		if(isapplicationform)
 		{
@@ -57,13 +55,13 @@ L--%>
 	  		{
 	 			if (document.SearchUserForm.userId.checked) 
 				{	
-					if(!keySearch(window.opener.document.associatedIds.options, document.SearchUserForm.userId.value))
+					if(!keySearch(window.opener.document.applicationForm.associatedIds.options, document.SearchUserForm.userId.value))
 					{
 						var optLen = window.opener.document.applicationForm.associatedIds.options.length++;	
 						window.opener.document.applicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName.value;
 						window.opener.document.applicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId.value;
-						ischecked = true;
 					}		
+					ischecked = true;
 				}
 	  		}
 			for (var i = 0; i <radioLen; i++) 
@@ -200,7 +198,7 @@ function skipNavigation()
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%">
 
-												<s:checkbox name="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox></td>
+												<s:checkbox name="userId" id="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox></td>
 											<td class="dataCellText" width="15%"><s:hidden
 												name="lgName"
 												value="%{loginName}" /><s:property value="#searchResultObject.loginName"/>&nbsp;</td>
@@ -215,7 +213,7 @@ function skipNavigation()
 										<s:set var="oddRow" value="true"/>
 											<tr class="dataRowDark">
 											<td class="dataCellNumerical" width="10%">
-											<s:checkbox name="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox>
+											<s:checkbox name="userId" id="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox>
 											</td>
 											<td class="dataCellText" width="15%"><s:hidden
 												name="lgName"

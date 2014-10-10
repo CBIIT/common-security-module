@@ -80,6 +80,14 @@ L--%>
 													</td>
 												</tr>
 												<tr>
+													<td class="errorMessage" colspan="2">
+													<s:if test="hasActionErrors()">
+													      <s:actionerror/>
+													</s:if>			  
+
+													</td>
+												</tr>
+												<tr>
 													<td class="sidebarLogin" align="right"><label for="loginId">LOGIN
 													ID</label></td>
 													<td class="formFieldLogin"><s:textfield style="formField"

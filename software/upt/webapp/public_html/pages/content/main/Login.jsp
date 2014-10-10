@@ -125,13 +125,12 @@ L--%>
 								<table summary="What is new" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW IN 5.1.1</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 5.2</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>NIH Password Policy
-											<li>Configurable UPT
-											<li>Several API enhancements and bug fixes
+											<li>Technology Stack Upgrade
+											<li>Several bug fixes
 										</td>
 									</tr>
 								</table>

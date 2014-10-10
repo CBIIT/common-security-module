@@ -1,0 +1,62 @@
+# CSM UPT CLI script
+connect localhost:9999
+
+##############################################################
+#             System Properties                      
+##############################################################
+
+#if (outcome == success) of /system-property=gov.nih.nci.security.configFile:read-resource
+#/system-property=gov.nih.nci.security.configFile:remove
+/system-property=gov.nih.nci.security.configFile:add(value=@jboss.home@/csmconfig/ApplicationSecurityConfig.xml)
+ 
+##############################################################
+#             CSM Data Source Configuration                      
+##############################################################
+
+# Add oracle JDBC driver
+#data-source remove --name=csmupt
+#/subsystem=datasources/jdbc-driver=@db.driver.name@:remove
+/subsystem=datasources/jdbc-driver=@db.driver.name@:add( \
+    driver-name=@db.driver.name@, \
+    driver-module-name=@db.module.name@, \
+    driver-class-name=@db.driver.class.name@ \
+) {allow-resource-service-restart=true}
+
+reload
+ 
+# Add datasource: csmupt
+data-source add \
+    --name=csmupt \
+    --driver-name=@db.driver.name@ \
+    --connection-url=@db.connection.url@ \
+    --jndi-name=java:/csmupt \
+    --user-name=@db.username@ \
+    --password=@db.password@ \
+    --use-ccm=false \
+    --max-pool-size=100 \
+    --blocking-timeout-wait-millis=5000 
+data-source enable --name=csmupt
+
+reload
+
+/subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "org.bouncycastle","slot" => "main"}])
+reload
+
+##############################################################
+#               CSM Login Module                             
+##############################################################
+#/subsystem=security/security-domain=csmupt/:remove
+/subsystem=security/security-domain=csmupt/:add(cache-type=default)
+/subsystem=security/security-domain=csmupt/authentication=classic:add( \
+    login-modules=[ \   
+        { \
+            "code" => "@loginmodule.type@", \
+            "flag" => "required", \
+            "module" => "gov.nih.nci.security", \
+            "module-options" => [@loginmodule.options@] \
+        } \     
+    ] \
+) {allow-resource-service-restart=true}
+
+# Execute and reload
+:reload
