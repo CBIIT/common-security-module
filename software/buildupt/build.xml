@@ -494,7 +494,7 @@ L-->
 		<configure-application-context-upt-application
 				context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
 				hibernate.config.file="${upt.central.hibernate.config.file}" 
-				applicatxion.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+				application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
 				/>
 		<copy file="${dist.exploded.dir}/ApplicationSecurityConfig.xml" tofile="${target.dir}/csmconfig/ApplicationSecurityConfig.xml" overwrite="true"/>
 	</target>
