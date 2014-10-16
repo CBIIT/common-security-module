@@ -57,7 +57,9 @@ L-->
 		<mkdir dir="${tools.dist.dir}" />
 		<mkdir dir="${temp.dir}" />
 		<mkdir dir="${download.dir}" />
-
+		<mkdir dir="${target.dir}/artifacts" />
+		<mkdir dir="${target.dir}/modules" />
+		<mkdir dir="${target.dir}/csmconfig" />
 		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
 		<available file="${jbosscp.dest.file}" property="jbosscp.tools.exists" />
 		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
@@ -234,15 +236,15 @@ L-->
 		">
 	</target>
 
-	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,configure:eap,install:jboss:upt-ear:configure">
+	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,configure:eap,install:jboss:upt-ear:configure, dist:anthill:configure:application:context">
 			
 	</target>
 
 	<target name="install:configure:eap" description="Deploy upt and common libraries to jboss installation" depends="common:init">
 		<switch value="${database.type}">
 			<case value="oracle">
-				<mkdir dir="${jboss.home}/modules/oracle"/>
-				<copy todir="${jboss.home}/modules/oracle" overwrite="true">
+				<mkdir dir="${target.dir}/modules/oracle"/>
+				<copy todir="${target.dir}/modules/oracle" overwrite="true">
 						<fileset dir="../common/resources/jboss-eap/modules/oracle"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
@@ -254,8 +256,8 @@ L-->
 				<property name="db.driver.jar" value="ojdbc14-10.2.0.3.0.jar"/>
 			</case>
 			<case value="mysql">
-				<mkdir dir="${jboss.home}/modules/mysql"/>
-				<copy todir="${jboss.home}/modules/mysql" overwrite="true">
+				<mkdir dir="${target.dir}/modules/mysql"/>
+				<copy todir="${target.dir}/modules/mysql" overwrite="true">
 						<fileset dir="../common/resources/jboss-eap/modules/mysql"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/mysql-connector-java-5.1.32-bin.jar"/>
@@ -266,8 +268,8 @@ L-->
 				<property name="db.driver.jar" value="mysql-connector-java-5.1.32-bin.jar"/>
 			</case>
 			<case value="postgresql">
-				<mkdir dir="${jboss.home}/modules/postgresql"/>
-				<copy todir="${jboss.home}/modules/postgresql" overwrite="true">
+				<mkdir dir="${target.dir}/modules/postgresql"/>
+				<copy todir="${target.dir}/modules/postgresql" overwrite="true">
 						<fileset dir="../common/resources/jboss-eap/modules/postgresql"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
@@ -294,7 +296,7 @@ L-->
 			<filter token="db.driver.class.name" value="${upt.central.database.driver.class}" />
 			<filter token="jboss.home" value="${jboss.home}" />
 		</filterset>
-		<copy todir="${jboss.home}/artifacts" overwrite="true">
+		<copy todir="${target.dir}/artifacts" overwrite="true">
 			<fileset dir="../common/resources/jboss-eap">
 				<include name="*csmupt_jboss_eap_*.cli" />
 			</fileset>
@@ -307,23 +309,24 @@ L-->
 			</filterset>
 		</copy>
 		<echo message="copy...done"/>		
-		<mkdir dir="${jboss.home}/modules/gov"/>
-		<mkdir dir="${jboss.home}/modules/org"/>
-		<copy todir="${jboss.home}/modules/gov" overwrite="true">
+		<mkdir dir="${target.dir}/modules/gov"/>
+		<mkdir dir="${target.dir}/modules/org"/>
+		<copy todir="${target.dir}/modules/gov" overwrite="true">
 				<fileset dir="../common/resources/jboss-eap/modules/gov"/>
 		</copy>
-		<copy todir="${jboss.home}/modules/org" overwrite="true">
+		<copy todir="${target.dir}/modules/org" overwrite="true">
 				<fileset dir="../common/resources/jboss-eap/modules/org"/>
 		</copy>
 	</target>
 
+
 	<target name="install:jboss:upt-ear:configure" depends="common:init">
 
-		<available file="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml" property="application.security.config.file.present"/>
+		<available file="${target.dir}/csmconfig/ApplicationSecurityConfig.xml" property="application.security.config.file.present"/>
 		<if>
 			<equals arg1="${application.security.config.file.present}" arg2="true"/>
 			<then>
-				<move file="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml" tofile="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
+				<move file="${target.dir}/csmconfig/ApplicationSecurityConfig.xml" tofile="${target.dir}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
 			</then>
 		</if>
 
@@ -341,7 +344,7 @@ L-->
 		<filterset id="upt.context.filterset">
 			<filter token="upt.context.name" value="csmupt" />
 		</filterset>
-		<copy todir="${jboss.home}/csmconfig" overwrite="true">
+		<copy todir="${target.dir}/csmconfig" overwrite="true">
 			<fileset dir="../common/resources/jboss-eap/csmconfig">
 				<include name="*ApplicationSecurityConfig.xml" />
 			</fileset>
@@ -354,7 +357,7 @@ L-->
 				</filterset>
 			</filterset>
 		</copy>
-		<copy todir="${jboss.home}/artifacts" overwrite="true">
+		<copy todir="${target.dir}/artifacts" overwrite="true">
 			<fileset dir="${dist.exploded.dir}/upt/uptEAR">
 				<include name="*uptEAR.ear" />
 			</fileset>
@@ -482,7 +485,7 @@ L-->
 	</target>
 	
 	<target name="dist:anthill:configure:application:context"
-			description="Configure application context config ${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
+			description="Configure application context config /csmconfig/ApplicationSecurityConfig.xml"
 			>
 		<configure-application-context-application context.name="${upt.central.context.name}" 
 			hibernate.config.file="" 
@@ -491,8 +494,9 @@ L-->
 		<configure-application-context-upt-application
 				context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
 				hibernate.config.file="${upt.central.hibernate.config.file}" 
-				application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+				applicatxion.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
 				/>
+		<copy file="${dist.exploded.dir}/ApplicationSecurityConfig.xml" tofile="${target.dir}/csmconfig/ApplicationSecurityConfig.xml" overwrite="true"/>
 	</target>
 	
 	<target name="anthill:install-database"
