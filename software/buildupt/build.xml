@@ -237,8 +237,25 @@ L-->
 		">
 	</target>
 
-	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,configure:eap,install:jboss:upt-ear:configure, dist:anthill:configure:application:context">
+	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,configure:eap,install:jboss:upt-ear:configure, re-configure-ear, dist:anthill:configure:application:context">
 			
+	</target>
+
+	<target name="common:init">
+		<property name="install.running" value="true"/>
+		<!-- upt-ear can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
+		<echoproperties prefix="database"/>
+		<property name="properties.template.file" value="${basedir}/properties.template" />
+		<!--OS Temp dir -->
+		<condition property="os.temp.dir" value="/tmp">
+			<or>
+				<os family="unix" />
+				<os family="mac" />
+			</or>
+		</condition>
+		<condition property="os.temp.dir" value="c:/temp">
+			<os family="windows" />
+		</condition>
 	</target>
 
 	<target name="install:configure:eap" description="Deploy upt and common libraries to jboss installation" depends="common:init">
@@ -363,6 +380,48 @@ L-->
 				<include name="*uptEAR.ear" />
 			</fileset>
 		</copy>
+	</target>
+
+	<target name="re-configure-ear">
+		<mkdir dir="${temp.dir}/uptEAR"/>
+		<unzip dest="${temp.dir}/uptEAR" src="${dist.exploded.dir}/upt/uptEAR/uptEAR.ear"/>
+
+		<property name="upt.jndi.name.value" value="/${upt.central.jndi.name}"/>
+		<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+		
+		<!-- unzip uptlogin.war and replace dialect, jndi, repackage war and delete temp dirs -->
+
+		<filterset id="upt.database.dialect.filterset">
+			<filter token="database.dialect" value="${upt.database.dialect}" />
+		</filterset>
+		<filterset id="upt.database.jndi.filterset">
+			<filter token="datasource.jndi.name" value="${upt.jndi.name.value}" />
+		</filterset>
+
+		<unzip dest="${temp.dir}/uptEAR/tempupt" src="${temp.dir}/uptEAR/${upt.central.url.context.name}.war"/>
+		<mkdir dir="${temp.dir}/uptEAR/upt"/>
+		<copy todir="${temp.dir}/uptEAR/upt" overwrite="true">
+				<fileset dir="${temp.dir}/uptEAR/tempupt"/>
+		</copy>
+		<copy todir="${temp.dir}/uptEAR/upt" overwrite="true">
+				<fileset dir="${temp.dir}/uptEAR/tempupt">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+				<filterset refid="upt.database.dialect.filterset"/>
+				<filterset refid="upt.database.jndi.filterset"/>
+		</copy>
+		<copy todir="${target.dir}/csmconfig/" overwrite="true">
+			<fileset dir="${temp.dir}/uptEAR/upt/WEB-INF/classes">
+				<include name="csmupt.csm.new.hibernate.cfg.xml" />
+			</fileset>
+		</copy>
+		<jar jarfile="${temp.dir}/uptEAR/${upt.central.url.context.name}.war" basedir="${temp.dir}/uptEAR/upt" />
+		<delete dir="${temp.dir}/uptEAR/tempupt" quiet="true"/>
+		<delete dir="${temp.dir}/uptEAR/upt" quiet="true"/>
+
+		<!-- Create ear file and place in ear directory -->
+		<jar jarfile="${target.dir}/artifacts/${upt.ear.file}.ear" basedir="${temp.dir}/uptEAR" />
+		<delete dir="${temp.dir}/uptEAR" quiet="true"/>
 	</target>
 
 	<target name="install:jboss:configure:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:init">
