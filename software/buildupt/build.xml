@@ -33,7 +33,8 @@ L-->
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
 	<import file="build-master-build.xml"/>
-	<import file="install.xml"/>
+	
+	<!--<import file="install.xml"/>-->
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
@@ -376,6 +377,57 @@ L-->
 		/>
 	</target>
 
+	<macrodef name="configure-login-config">
+		<attribute name="authentication.type" default="NOT SET" />
+		<attribute name="application.context.name" default="NOT SET" />
+		<attribute name="ldaps.url" default="NOT SET" />
+		<attribute name="ldaps.basedn" default="NOT SET" />
+		<attribute name="ldaps.userid.label" default="NOT SET" />
+		<attribute name="ldap.url" default="NOT SET" />
+		<attribute name="ldap.searchable.base" default="NOT SET" />
+		<attribute name="ldap.userid.label" default="NOT SET" />
+		<attribute name="ldap.admin.user.name" default="NOT SET" />
+		<attribute name="ldap.admin.user.password" default="NOT SET" />
+		<attribute name="database.driver" default="NOT SET" />
+		<attribute name="database.url" default="NOT SET" />
+		<attribute name="database.user" default="NOT SET" />
+		<attribute name="database.password" default="NOT SET" />
+		<attribute name="database.encrypt.enabled" default="NOT SET" />
+			
+		<sequential>
+			<if>
+				<equals arg1="@{authentication.type}" arg2="ldaps" />
+				<then>
+				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule"/>
+				<property name="loginmodule.options" value='("ldapHost"=>"@{ldaps.url}"), ("ldapSearchableBase"=>"@{ldaps.basedn}"), ("ldapUserIdLabel"=>"@{ldaps.userid.label}")'/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+			</then>
+			<elseif>
+				<equals arg1="@{authentication.type}" arg2="ldap" />
+				<then>
+				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule"/>
+				<property name="loginmodule.options" value='("ldapHost"=>"@{ldaps.url}"), ("ldapSearchableBase"=>"@{ldaps.basedn}"), ("ldapUserIdLabel"=>"@{ldaps.userid.label}"), ("ldapAdminUserName"=>"@{ldap.admin.user.name}"), ("ldapAdminPassword"=>"@{ldap.admin.user.password}")'/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+				</then>
+			</elseif>
+			<elseif>
+				<equals arg1="@{authentication.type}" arg2="db" />
+				<then>
+				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule"/>
+				<property name="loginmodule.options" value='("driver"=>"@{database.driver}"), ("url"=>"@{database.url}"), ("user"=>"@{database.user}"), ("passwd"=>"@{database.password}"), ("query"=>"SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?"), ("encryption-enabled"=>"@{database.encrypt.enabled}")'/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${target.dir}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+				</then>
+		</elseif>
+		<else>
+			<fail message="@{authentication.type} is not a valid authentiation type, please change to db or ldap and re-run the build." />
+		</else>
+		</if>	
+		</sequential>
+	</macrodef>
+
 	<target name="configure:pre-build" description="Configures UPT">
 		<filterset id="upt.filterset">
 			<filter token="upt.version.database.url.prefix" value="${upt.central.database.url.prefix}" />
@@ -470,7 +522,6 @@ L-->
 			ldap.userid.label="${upt.central.ldap.userid.label}"
 			ldap.admin.user.name="${upt.central.ldap.admin.user.name}" 
 			ldap.admin.user.password="${upt.central.ldap.admin.user.password}"
-			login.config.file="${dist.exploded.dir}/login-config-template.xml"
 		/>
 	</target>
 
