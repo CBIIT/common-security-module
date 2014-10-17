@@ -34,7 +34,7 @@ L-->
 
 	<import file="build-master-build.xml"/>
 	
-	<!--<import file="install.xml"/>-->
+	<import file="install.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
