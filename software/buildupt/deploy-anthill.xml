@@ -8,13 +8,13 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L-->
 
-<project name="csm-bkwrds" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+<project name="deploy-anthill" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<description>
 		Builds the CSM/UPT application.
 	</description>
 
 	<property file="project.properties" />
-	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="lib.dir" location="${lib.dir}" />
 	<property name="upt.central.database.user" value="upttest"/>
 	<property name="upt.central.database.password" value="upttest"/>
 	<property name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>

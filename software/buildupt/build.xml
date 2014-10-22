@@ -744,5 +744,85 @@ L-->
 		<zip destfile="${dist.dir}/csm-upt-src5.0.zip" basedir="${upt.base.dir}/webapp" />
 	</target>
 
-	
+	<target name="anthill:install:upt:database" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
+				<install-upt-database 	
+							database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
+							database.server="${upt.central.database.server}"
+							database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
+							database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
+							database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
+							database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
+							database.schema="${upt.central.database.name}"  database.re-create="${upt.central.database.re-create}"
+							database.drop-schema="${upt.central.database.drop-schema}"
+							db.install.dir="../${db-install.dist.relative.dir}/db-install"
+							database.dir.src="../${db-install.dist.relative.dir}/db-install"
+							db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
+							db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
+							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgresql.file.list}"
+							db.upgrade.non-central.file="${upt.central.db.upgrade.file}"
+						/>
+	</target>
+
+	<target name="anthill:upgrade:upt:database" description="Upgrades database using build Datbase Upgrade process." unless="exclude.database">
+		<echo message="execute for non central database"/>		
+		<mkdir dir="${os.temp.dir}/${project.name}"/>
+
+		<switch value="${upt.central.database.type}">
+			<case value="oracle">
+				<property name="database.upgrade.type" value="Oracle"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="../${db-install.dist.relative.dir}/db-upgrade/oracle">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<case value="mysql">
+				<property name="database.upgrade.type" value="MySQL"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="../${db-install.dist.relative.dir}/db-upgrade/mysql">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<case value="postgresql">
+				<property name="database.upgrade.type" value="PostgreSQL"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="../${db-install.dist.relative.dir}/db-upgrade/postgresql">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<default>
+				<fail message="Invalid database type ${database.type}"/>
+			</default>
+		</switch>
+
+
+		<upgrade-upt-database
+			database.system.url="${upt.central.database.system.url}" database.name="${upt.central.database.name}" 
+			schema.name="${upt.central.database.schema.name}"
+			database.system.password="${upt.central.database.system.password}"  
+			database.system.user="${upt.central.database.system.user}"
+			database.url="${upt.central.database.url}" 
+			database.user="${upt.central.database.user}" 
+			database.password="${upt.central.database.password}" 
+			database.type="${upt.central.database.type}" 
+			database.upgrade.schema.file="MigrationScript${upgrade.upt.central.db.previous.version}${database.upgrade.type}.xml" />
+	</target>
+
 </project>

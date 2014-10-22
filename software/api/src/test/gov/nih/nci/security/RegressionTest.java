@@ -72,7 +72,7 @@ public class RegressionTest extends TestCase
 
 		System.out.println("setUp()");
 		System.setProperty("gov.nih.nci.security.configFile", "ApplicationSecurityConfig.xml");
-		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
+		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 
 		// Initialize the userList - used to check the "get" functions
 		InitializeUserStringArray();
@@ -96,40 +96,40 @@ public class RegressionTest extends TestCase
 		// Order of Execution
 
 		// Create Objects
-		testCreateApplication();
-		testCreateUser();
-		testCreatePrivilege();
-		testCreateProtectionElement();
-		testCreateRole();
-		testCreateGroup();
-		testCreateProtectionGroup();
+		xtestCreateApplication();
+		xtestCreateUser();
+		xtestCreatePrivilege();
+		xtestCreateProtectionElement();
+		xtestCreateRole();
+		xtestCreateGroup();
+		xtestCreateProtectionGroup();
 
 		// test
-		testGetApplicationById();
-		testGetUser();
-		testGetUserById();
-		testGetPrivilegeById();
-		testGetProtectionElementById();
-		testGetProtectionElementString();
-		testGetProtectionElementStringString();
-		testGetRoleById();
-		testGetGroupById();
-		testGetProtectionGroupById();
-		//testGetProtectionGroups();
-
+		xtestGetApplicationById();
+		xtestGetUser();
+		xtestGetUserById();
+		xtestGetPrivilegeById();
+		xtestGetProtectionElementById();
+		xtestGetProtectionElementString();
+		xtestGetProtectionElementStringString();
+		xtestGetRoleById();
+		xtestGetGroupById();
+		xtestGetProtectionGroupById();
+		//xtestGetProtectionGroups();
 
 		// remove the objects.
-		testRemoveApplication();
-		testRemoveUser();
-		testRemovePrivilege();
-		testRemoveProtectionElement();
-		testRemoveRole();
-		testRemoveGroup();
-		testRemoveProtectionGroup();
+		xtestRemoveApplication();
+		xtestRemoveUser();
+		xtestRemovePrivilege();
+		xtestRemoveProtectionElement();
+		xtestRemoveRole();
+		xtestRemoveGroup();
+		xtestRemoveProtectionGroup();
+		
 
 	}
 
-	private void testCreateApplication() throws CSTransactionException
+	public void xtestCreateApplication() throws CSTransactionException
 	{
 		try
 		{
@@ -158,28 +158,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemoveApplication() throws CSTransactionException
-	{
-		try
-		{
-
-			for (int x = 0; x < NumberOfApplicationsToTest; x++)
-			{
-				Application obj = new Application();
-				obj.setApplicationName(ApplicationStringArray[x][0]);
-				SearchCriteria sc = new ApplicationSearchCriteria(obj);
-				List appList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeApplication(((Application) appList.get(0)).getApplicationId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-	}
-
-	private void testCreateUser() throws CSTransactionException
+	public void xtestCreateUser() throws CSTransactionException
 	{
 
 		try
@@ -197,7 +176,7 @@ public class RegressionTest extends TestCase
 				tempUser.setPassword(UserStringArray[x][6]);
 				tempUser.setTitle(UserStringArray[x][7]);
 				tempUser.setPhoneNumber(UserStringArray[x][8]);
-
+				tempUser.setPasswordExpiryDate(new java.util.Date("10/10/15"));
 				tempUser.setEndDate(CurrentTime);
 				tempUser.setStartDate(CurrentTime);
 				tempUser.setUpdateDate(CurrentTime);
@@ -212,28 +191,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemoveUser() throws CSTransactionException
-	{
-		try
-		{
-			for (int x = 0; x < NumberOfUsersToTest; x++)
-			{
-				User obj = new User();
-				obj.setLoginName(UserStringArray[x][0]);
-				SearchCriteria sc = new UserSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeUser(((User) objList.get(0)).getUserId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-
-	}
-
-	private void testCreatePrivilege() throws CSTransactionException
+	public void xtestCreatePrivilege() throws CSTransactionException
 	{
 		try
 		{
@@ -254,29 +212,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemovePrivilege() throws CSTransactionException
-	{
-
-		try
-		{
-			for (int x = 0; x < NumberOfPrivilegesToTest; x++)
-			{
-				Privilege obj = new Privilege();
-				obj.setName(PrivilegeStringArray[x][0]);
-				SearchCriteria sc = new PrivilegeSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removePrivilege(((Privilege) objList.get(0)).getId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-
-	}
-
-	private void testCreateProtectionElement() throws CSTransactionException
+	public void xtestCreateProtectionElement() throws CSTransactionException
 	{
 		for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
 		{
@@ -294,27 +230,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemoveProtectionElement() throws CSTransactionException
-	{
-		try
-		{
-			for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
-			{
-				ProtectionElement obj = new ProtectionElement();
-				obj.setProtectionElementName(ProtectionElementStringArray[x][0]);
-				SearchCriteria sc = new ProtectionElementSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeProtectionElement(((ProtectionElement) objList.get(0)).getProtectionElementId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-	}
-
-	private void testCreateRole() throws CSTransactionException
+	public void xtestCreateRole() throws CSTransactionException
 	{
 		byte tempFlag = 0;
 		for (int x = 0; x < NumberOfRolesToTest; x++)
@@ -335,27 +251,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemoveRole() throws CSTransactionException
-	{
-		try
-		{
-			for (int x = 0; x < NumberOfRolesToTest; x++)
-			{
-				Role obj = new Role();
-				obj.setName(RoleStringArray[x][0]);
-				SearchCriteria sc = new RoleSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeRole(((Role) objList.get(0)).getId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-	}
-
-	private void testCreateGroup() throws CSTransactionException
+	public void xtestCreateGroup() throws CSTransactionException
 	{
 
 		for (int x = 0; x < NumberOfGroupsToTest; x++)
@@ -371,28 +267,7 @@ public class RegressionTest extends TestCase
 
 	}
 
-	private void testRemoveGroup() throws CSTransactionException
-	{
-
-		try
-		{
-			for (int x = 0; x < NumberOfGroupsToTest; x++)
-			{
-				Group obj = new Group();
-				obj.setGroupName(GroupStringArray[x][0]);
-				SearchCriteria sc = new GroupSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeGroup(((Group) objList.get(0)).getGroupId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-	}
-
-	private void testCreateProtectionGroup() throws CSTransactionException
+	public void xtestCreateProtectionGroup() throws CSTransactionException
 	{
 		byte tempFlag = 0;
 		for (int x = 0; x < NumberOfProtectionGroupsToTest; x++)
@@ -414,27 +289,8 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testRemoveProtectionGroup() throws CSTransactionException
-	{
-		try
-		{
-			for (int x = 0; x < NumberOfProtectionGroupsToTest; x++)
-			{
-				ProtectionGroup obj = new ProtectionGroup();
-				obj.setProtectionGroupName(ProtectionGroupStringArray[x][0]);
-				SearchCriteria sc = new ProtectionGroupSearchCriteria(obj);
-				List objList = userProvisioningManager.getObjects(sc);
-				userProvisioningManager.removeProtectionGroup(((ProtectionGroup) objList.get(0)).getProtectionGroupId().toString());
-			}
-			assertTrue(true);
-		}
-		catch (Exception e)
-		{
-			assertTrue(false);
-		}
-	}
 
-	private void testGetApplicationById() throws CSObjectNotFoundException
+	public void xtestGetApplicationById() throws CSObjectNotFoundException
 	{
 		try
 		{
@@ -457,7 +313,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetUser()
+	public void xtestGetUser()
 	{
 		User tempUser;
 
@@ -472,7 +328,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetUserById() throws CSObjectNotFoundException
+	public void xtestGetUserById() throws CSObjectNotFoundException
 	{
 		try
 		{
@@ -494,7 +350,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetPrivilegeById() throws CSObjectNotFoundException
+	public void xtestGetPrivilegeById() throws CSObjectNotFoundException
 	{
 		try
 		{
@@ -517,11 +373,11 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetProtectionElementById() throws CSObjectNotFoundException
+	public void xtestGetProtectionElementById() throws CSObjectNotFoundException
 	{
 		try
 		{
-			for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
+			for (int x = 51; x < NumberOfProtectionElementsToTest; x++)
 			{
 				ProtectionElement obj = new ProtectionElement();
 				obj.setProtectionElementName(ProtectionElementStringArray[x][0]);
@@ -538,28 +394,28 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetProtectionElementString() throws CSObjectNotFoundException
+	public void xtestGetProtectionElementString() throws CSObjectNotFoundException
 	{
 		ProtectionElement tempProtectionElement;
 
-		for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
+		for (int x = 51; x < NumberOfProtectionElementsToTest; x++)
 		{
 			tempProtectionElement = userProvisioningManager.getProtectionElement(ProtectionElementStringArray[x][2]);
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
 
-	private void testGetProtectionElementStringString()
+	public void xtestGetProtectionElementStringString()
 	{
 		ProtectionElement tempProtectionElement;
-		for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
+		for (int x = 51; x < NumberOfProtectionElementsToTest; x++)
 		{
 			tempProtectionElement = userProvisioningManager.getProtectionElement(ProtectionElementStringArray[x][2], ProtectionElementStringArray[x][3]);
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
 
-	private void testGetRoleById() throws CSObjectNotFoundException
+	public void xtestGetRoleById() throws CSObjectNotFoundException
 	{
 		Role tempRole;
 		byte tempFlag = 0;
@@ -584,7 +440,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetGroupById() throws CSObjectNotFoundException
+	public void xtestGetGroupById() throws CSObjectNotFoundException
 	{
 		Group tempGroup;
 		for (int x = 0; x < NumberOfGroupsToTest; x++)
@@ -601,7 +457,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void testGetProtectionGroupById() throws CSObjectNotFoundException
+	public void xtestGetProtectionGroupById() throws CSObjectNotFoundException
 	{
 		ProtectionGroup tempProtectionGroup;
 		for (int x = 0; x < NumberOfProtectionGroupsToTest; x++)
@@ -616,10 +472,154 @@ public class RegressionTest extends TestCase
 	}
 
 
+	public void xtestRemoveApplication() throws CSTransactionException
+	{
+		try
+		{
+
+			for (int x = 0; x < NumberOfApplicationsToTest; x++)
+			{
+				Application obj = new Application();
+				obj.setApplicationName(ApplicationStringArray[x][0]);
+				SearchCriteria sc = new ApplicationSearchCriteria(obj);
+				List appList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeApplication(((Application) appList.get(0)).getApplicationId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+	}
 
 
+	public void xtestRemoveUser() throws CSTransactionException
+	{
+		try
+		{
+			for (int x = 0; x < NumberOfUsersToTest; x++)
+			{
+				User obj = new User();
+				obj.setLoginName(UserStringArray[x][0]);
+				SearchCriteria sc = new UserSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeUser(((User) objList.get(0)).getUserId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
 
-	private void AssertEqualsForUsers(int iteration, User tempUser)
+	}
+
+	public void xtestRemovePrivilege() throws CSTransactionException
+	{
+
+		try
+		{
+			for (int x = 0; x < NumberOfPrivilegesToTest; x++)
+			{
+				Privilege obj = new Privilege();
+				obj.setName(PrivilegeStringArray[x][0]);
+				SearchCriteria sc = new PrivilegeSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removePrivilege(((Privilege) objList.get(0)).getId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+
+	}
+
+	public void xtestRemoveProtectionElement() throws CSTransactionException
+	{
+		try
+		{
+			for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
+			{
+				ProtectionElement obj = new ProtectionElement();
+				obj.setProtectionElementName(ProtectionElementStringArray[x][0]);
+				SearchCriteria sc = new ProtectionElementSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeProtectionElement(((ProtectionElement) objList.get(0)).getProtectionElementId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+	}
+
+	public void xtestRemoveRole() throws CSTransactionException
+	{
+		try
+		{
+			for (int x = 0; x < NumberOfRolesToTest; x++)
+			{
+				Role obj = new Role();
+				obj.setName(RoleStringArray[x][0]);
+				SearchCriteria sc = new RoleSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeRole(((Role) objList.get(0)).getId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+	}
+
+	public void xtestRemoveGroup() throws CSTransactionException
+	{
+
+		try
+		{
+			for (int x = 0; x < NumberOfGroupsToTest; x++)
+			{
+				Group obj = new Group();
+				obj.setGroupName(GroupStringArray[x][0]);
+				SearchCriteria sc = new GroupSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeGroup(((Group) objList.get(0)).getGroupId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+	}
+
+	public void xtestRemoveProtectionGroup() throws CSTransactionException
+	{
+		try
+		{
+			for (int x = 0; x < NumberOfProtectionGroupsToTest; x++)
+			{
+				ProtectionGroup obj = new ProtectionGroup();
+				obj.setProtectionGroupName(ProtectionGroupStringArray[x][0]);
+				SearchCriteria sc = new ProtectionGroupSearchCriteria(obj);
+				List objList = userProvisioningManager.getObjects(sc);
+				userProvisioningManager.removeProtectionGroup(((ProtectionGroup) objList.get(0)).getProtectionGroupId().toString());
+			}
+			assertTrue(true);
+		}
+		catch (Exception e)
+		{
+			assertTrue(false);
+		}
+	}
+
+
+	public void AssertEqualsForUsers(int iteration, User tempUser)
 	{
 		long tempLong;
 		tempLong = iteration + 1;
@@ -636,7 +636,7 @@ public class RegressionTest extends TestCase
 		assertEquals("\nIncorrect User ID\n", tempLong, ((Long) tempUser.getUserId()).longValue());
 	}
 
-	private void AssertEqualsForProtectionElements(int iteration, ProtectionElement tempProtectionElement)
+	public void AssertEqualsForProtectionElements(int iteration, ProtectionElement tempProtectionElement)
 	{
 		long tempLong;
 		tempLong = (long) iteration + 1;
@@ -648,13 +648,13 @@ public class RegressionTest extends TestCase
 		assertEquals("\nIncorrect Protection Element ID\n", tempLong, ((Long) tempProtectionElement.getProtectionElementId()).longValue());
 	}
 
-	private void AssertEqualsForTextInProtectionGroup(int iteration, ProtectionGroup tempPG)
+	public void AssertEqualsForTextInProtectionGroup(int iteration, ProtectionGroup tempPG)
 	{
 		assertEquals("\nIncorrect PG Name\n", ProtectionGroupStringArray[iteration][0], tempPG.getProtectionGroupName());
 		assertEquals("\nIncorrect PG Description\n", ProtectionGroupStringArray[iteration][1], tempPG.getProtectionGroupDescription());
 	}
 
-	private void InitializeUserStringArray()
+	public void InitializeUserStringArray()
 	{
 		for (int x = 0; x < NumberOfUsersToTest; x++)
 		{
@@ -672,7 +672,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializeRoleStringArray()
+	public void InitializeRoleStringArray()
 	{
 		for (int x = 0; x < NumberOfRolesToTest; x++)
 		{
@@ -682,7 +682,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializeGroupStringArray()
+	public void InitializeGroupStringArray()
 	{
 		for (int x = 0; x < NumberOfGroupsToTest; x++)
 		{
@@ -691,7 +691,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializeApplicationStringArray()
+	public void InitializeApplicationStringArray()
 	{
 		for (int x = 0; x < NumberOfApplicationsToTest; x++)
 		{
@@ -700,7 +700,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializePrivilegeStringArray()
+	public void InitializePrivilegeStringArray()
 	{
 		for (int x = 0; x < NumberOfPrivilegesToTest; x++)
 		{
@@ -709,7 +709,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializeProtectionElementStringArray()
+	public void InitializeProtectionElementStringArray()
 	{
 		for (int x = 0; x < NumberOfProtectionElementsToTest; x++)
 		{
@@ -720,7 +720,7 @@ public class RegressionTest extends TestCase
 		}
 	}
 
-	private void InitializeProtectionGroupStringArray()
+	public void InitializeProtectionGroupStringArray()
 	{
 		for (int x = 0; x < NumberOfProtectionGroupsToTest; x++)
 		{
