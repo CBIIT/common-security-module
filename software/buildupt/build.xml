@@ -241,6 +241,10 @@ L-->
 			
 	</target>
 
+	<target name="dist:anthill2" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,dist:anthill:login:config,dist:anthill:configure:datasources,dist:anthill:configure:application:context" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
+			
+	</target>
+
 	<target name="common:init">
 		<property name="install.running" value="true"/>
 		<!-- upt-ear can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
@@ -565,6 +569,16 @@ L-->
 				<include name="project.properties" />
 			</fileset>
 		</copy>
+		<copy todir="${dist.exploded.dir}/lib" overwrite="true">
+			<fileset dir="${build-utils.dir}">
+				<include name="mysql-connector-java-5.1.32-bin.jar" />
+				<include name="liquibase-core-1.9.3.jar" />
+				<include name="ant-contrib-1.0nci.jar" />
+				<include name="bcprov-jdk15on-147.jar" />
+				<include name="clm-4.1.1.jar" />				
+			</fileset>
+		</copy>
+		
 	</target>
 
 	<target name="dist:anthill:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml">
