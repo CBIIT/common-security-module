@@ -14,7 +14,7 @@ L-->
 	</description>
 
 	<property file="project.properties" />
-	<property name="lib.dir" location="${lib.dir}" />
+	<property name="lib.dir" location="./lib" />
 	<property name="upt.central.database.user" value="upttest"/>
 	<property name="upt.central.database.password" value="upttest"/>
 	<property name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
@@ -42,7 +42,7 @@ L-->
 					database.user="${upt.central.database.user}"
 					database.password="${upt.central.database.password}"
 					database.driver="${upt.central.database.driver.class}"
-					database.driver.file="${lib.dir}/mysql-connector-java-5.1.13.jar"
+					database.driver.file="${lib.dir}/mysql-connector-java-5.1.32-bin.jar"
 					sql.delimiter=";"
 					sql.delimitertype="normal"
 					sql.file="${basedir}/common/resources/db/db-install/mysql/@{db.install.file}"
@@ -56,7 +56,7 @@ L-->
 			>			
 		<database-upgrade			
 			database.driver="${upt.central.database.driver.class}"			
-			database.driver.file="${lib.dir}/mysql-connector-java-5.1.13.jar"
+			database.driver.file="${lib.dir}/mysql-connector-java-5.1.32-bin.jar"
 			database.url="${upt.central.database.url}"
 			database.user="${upt.central.database.user}"
 			database.password="${upt.central.database.password}"
