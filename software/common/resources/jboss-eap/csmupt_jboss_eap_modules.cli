@@ -2,12 +2,12 @@
 connect localhost:9999
 
 ### Database driver module
-module add --name=@db.module.name@ --resources=@jboss.home@/modules/@db.driver.name@/main/@db.driver.jar@ --dependencies=javax.api,javax.transaction.api
+module add --name=@db.module.name@ --resources=@modules.home@/modules/@db.driver.name@/main/@db.driver.jar@ --dependencies=javax.api,javax.transaction.api
 
 ### CSM security module
-module add --name=gov.nih.nci.security --resources=@jboss.home@/modules/gov/nih/nci/security/main/csmapi-5.2.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
+module add --name=gov.nih.nci.security --resources=@modules.home@/modules/gov/nih/nci/security/main/csmapi-5.2.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
 
 ###  BounyCastle
-module add --name=org.bouncycastle --resources=@jboss.home@/modules/org/bouncycastle/main/bcprov-jdk15on-151.jar --dependencies=javax.api
+module add --name=org.bouncycastle --resources=@modules.home@/modules/org/bouncycastle/main/bcprov-jdk15on-151.jar --dependencies=javax.api
 
 reload

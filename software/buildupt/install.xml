@@ -41,8 +41,8 @@ L-->
 	<target name="install:configure:eap" description="Deploy upt and common libraries to jboss installation" depends="common:init">
 		<switch value="${database.type}">
 			<case value="oracle">
-				<mkdir dir="${jboss.home}/modules/oracle"/>
-				<copy todir="${jboss.home}/modules/oracle" overwrite="true">
+				<mkdir dir="${modules.home}/modules/oracle"/>
+				<copy todir="${modules.home}/modules/oracle" overwrite="true">
 						<fileset dir="${basedir}/common/resources/jboss-eap/modules/oracle"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
@@ -54,8 +54,8 @@ L-->
 				<property name="db.driver.jar" value="ojdbc14-10.2.0.3.0.jar"/>
 			</case>
 			<case value="mysql">
-				<mkdir dir="${jboss.home}/modules/mysql"/>
-				<copy todir="${jboss.home}/modules/mysql" overwrite="true">
+				<mkdir dir="${modules.home}/modules/mysql"/>
+				<copy todir="${modules.home}/modules/mysql" overwrite="true">
 						<fileset dir="${basedir}/common/resources/jboss-eap/modules/mysql"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/mysql-connector-java-5.1.32-bin.jar"/>
@@ -66,8 +66,8 @@ L-->
 				<property name="db.driver.jar" value="mysql-connector-java-5.1.32-bin.jar"/>
 			</case>
 			<case value="postgresql">
-				<mkdir dir="${jboss.home}/modules/postgresql"/>
-				<copy todir="${jboss.home}/modules/postgresql" overwrite="true">
+				<mkdir dir="${modules.home}/modules/postgresql"/>
+				<copy todir="${modules.home}/modules/postgresql" overwrite="true">
 						<fileset dir="${basedir}/common/resources/jboss-eap/modules/postgresql"/>
 				</copy>
 				<property name="database.driver.file" value="${build-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
@@ -93,9 +93,13 @@ L-->
 			<filter token="db.password" value="${upt.central.database.password}" />
 			<filter token="db.driver.class.name" value="${upt.central.database.driver.class}" />
 			<filter token="jboss.home" value="${jboss.home}" />
+			<filter token="modules.home" value="${modules.home}" />
+			<filter token="csmconfig.home" value="${csmconfig.home}" />
+			<filter token="artifacts.home" value="${artifacts.home}" />
+			
 		</filterset>
 		<echo message="copy...${basedir}"/>		
-		<copy todir="${jboss.home}/artifacts" overwrite="true">
+		<copy todir="${artifacts.home}/artifacts" overwrite="true">
 			<fileset dir="${basedir}/common/resources/jboss-eap">
 				<include name="*csmupt_jboss_eap_*.cli" />
 			</fileset>
@@ -108,23 +112,23 @@ L-->
 			</filterset>
 		</copy>
 		<echo message="copy...done"/>		
-		<mkdir dir="${jboss.home}/modules/gov"/>
-		<mkdir dir="${jboss.home}/modules/org"/>
-		<copy todir="${jboss.home}/modules/gov" overwrite="true">
+		<mkdir dir="${modules.home}/modules/gov"/>
+		<mkdir dir="${modules.home}/modules/org"/>
+		<copy todir="${modules.home}/modules/gov" overwrite="true">
 				<fileset dir="${basedir}/common/resources/jboss-eap/modules/gov"/>
 		</copy>
-		<copy todir="${jboss.home}/modules/org" overwrite="true">
+		<copy todir="${modules.home}/modules/org" overwrite="true">
 				<fileset dir="${basedir}/common/resources/jboss-eap/modules/org"/>
 		</copy>
 	</target>
 
 	<target name="install:jboss:upt-ear:configure" depends="common:init">
 
-		<available file="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml" property="application.security.config.file.present"/>
+		<available file="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml" property="application.security.config.file.present"/>
 		<if>
 			<equals arg1="${application.security.config.file.present}" arg2="true"/>
 			<then>
-				<move file="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml" tofile="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
+				<move file="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml" tofile="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
 			</then>
 		</if>
 
@@ -142,7 +146,7 @@ L-->
 		<filterset id="upt.context.filterset">
 			<filter token="upt.context.name" value="csmupt" />
 		</filterset>
-		<copy todir="${jboss.home}/csmconfig" overwrite="true">
+		<copy todir="${csmconfig.home}/csmconfig" overwrite="true">
 			<fileset dir="${basedir}/common/resources/jboss-eap/csmconfig">
 				<include name="*ApplicationSecurityConfig.xml" />
 			</fileset>
@@ -171,11 +175,11 @@ L-->
 	</target>
 
 	<target name="install:jboss:configure:application:context"
-			description="Configure application context config ${jboss.home}/csmconfig/ApplicationSecurityConfig.xml"
+			description="Configure application context config ${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml"
 			unless="exclude.jboss" depends="common:init">
 		<xmltask preservetype="true"
-					source="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml"
-					dest="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml">
+					source="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml"
+					dest="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml">
 			<xmlcatalog refid="build.xml.catalog" />
 			<remove
 					path="/*[local-name()='security-config']/*[local-name()='application-list']/text()" />
@@ -250,16 +254,16 @@ L-->
 				<then>
 				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule"/>
 				<property name="loginmodule.options" value='("ldapHost"=>"@{ldaps.url}"), ("ldapSearchableBase"=>"@{ldaps.basedn}"), ("ldapUserIdLabel"=>"@{ldaps.userid.label}")'/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
 			</then>
 			<elseif>
 				<equals arg1="@{authentication.type}" arg2="ldap" />
 				<then>
 				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule"/>
 				<property name="loginmodule.options" value='("ldapHost"=>"@{ldaps.url}"), ("ldapSearchableBase"=>"@{ldaps.basedn}"), ("ldapUserIdLabel"=>"@{ldaps.userid.label}"), ("ldapAdminUserName"=>"@{ldap.admin.user.name}"), ("ldapAdminPassword"=>"@{ldap.admin.user.password}")'/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
 				</then>
 			</elseif>
 			<elseif>
@@ -267,8 +271,8 @@ L-->
 				<then>
 				<property name="loginmodule.type" value="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule"/>
 				<property name="loginmodule.options" value='("driver"=>"@{database.driver}"), ("url"=>"@{database.url}"), ("user"=>"@{database.user}"), ("passwd"=>"@{database.password}"), ("query"=>"SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?"), ("encryption-enabled"=>"@{database.encrypt.enabled}")'/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
-				<replaceregexp file="${jboss.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.type@" replace="${loginmodule.type}" flags="g"/>
+				<replaceregexp file="${artifacts.home}/artifacts/csmupt_jboss_eap_conf.cli" match="@loginmodule.options@" replace="${loginmodule.options}" flags="g"/>
 				</then>
 		</elseif>
 		<else>
@@ -281,7 +285,7 @@ L-->
 	<macrodef name="configure-application-context-application">
 		<attribute name="context.name" default="NOT SET" />
 		<attribute name="hibernate.config.file" default="NOT SET" />
-		<attribute name="application.context.file" default="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml" />
+		<attribute name="application.context.file" default="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml" />
 		
 		<sequential>
 			<xmltask preservetype="true" failWithoutMatch="true" source="@{application.context.file}" dest="@{application.context.file}">
@@ -312,7 +316,7 @@ L-->
 		<attribute name="context.name" default="NOT SET" />
 		<attribute name="url.context.name" default="NOT SET" />
 		<attribute name="hibernate.config.file" default="NOT SET" />
-		<attribute name="application.context.file" default="${jboss.home}/csmconfig/ApplicationSecurityConfig.xml"/>
+		<attribute name="application.context.file" default="${csmconfig.home}/csmconfig/ApplicationSecurityConfig.xml"/>
 	
 		<sequential>
 			<xmltask preservetype="true" failWithoutMatch="true" source="@{application.context.file}" dest="@{application.context.file}">
@@ -481,7 +485,7 @@ L-->
 		</then>
 		</if>
 		<!--<copy todir="${jboss.home}/standalone/lib" file="${temp.ear.dir}/upt/WEB-INF/lib/clm-4.1.1.jar"/>-->
-		<copy todir="${jboss.home}/csmconfig/" overwrite="true">
+		<copy todir="${csmconfig.home}/csmconfig/" overwrite="true">
 			<fileset dir="${temp.ear.dir}/upt/WEB-INF/classes">
 				<include name="csmupt.csm.new.hibernate.cfg.xml" />
 			</fileset>
@@ -523,6 +527,10 @@ L-->
 		<condition property="os.temp.dir" value="c:/temp">
 			<os family="windows" />
 		</condition>
+	<property name="modules.home" value="${jboss.home}" />
+	<property name="csmconfig.home" value="${jboss.home}" />
+	<property name="artifacts.home" value="${jboss.home}" />
+		
 	</target>
 
 

@@ -7,7 +7,7 @@ connect localhost:9999
 
 #if (outcome == success) of /system-property=gov.nih.nci.security.configFile:read-resource
 #/system-property=gov.nih.nci.security.configFile:remove
-/system-property=gov.nih.nci.security.configFile:add(value=@jboss.home@/csmconfig/ApplicationSecurityConfig.xml)
+/system-property=gov.nih.nci.security.configFile:add(value=@csmconfig.home@/csmconfig/ApplicationSecurityConfig.xml)
  
 ##############################################################
 #             CSM Data Source Configuration                      

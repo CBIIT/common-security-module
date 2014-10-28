@@ -317,6 +317,10 @@ L-->
 			<filter token="db.password" value="${upt.central.database.password}" />
 			<filter token="db.driver.class.name" value="${upt.central.database.driver.class}" />
 			<filter token="jboss.home" value="${jboss.home}" />
+			<filter token="modules.home" value="${modules.home}" />
+			<filter token="csmconfig.home" value="${csmconfig.home}" />
+			<filter token="artifacts.home" value="${artifacts.home}" />
+
 		</filterset>
 		<copy todir="${target.dir}/artifacts" overwrite="true">
 			<fileset dir="../common/resources/jboss-eap">
