@@ -5,8 +5,9 @@ connect localhost:9999
 #             System Properties                      
 ##############################################################
 
-#if (outcome == success) of /system-property=gov.nih.nci.security.configFile:read-resource
-#/system-property=gov.nih.nci.security.configFile:remove
+if (outcome == success) of /system-property=gov.nih.nci.security.configFile:read-resource
+/system-property=gov.nih.nci.security.configFile:remove
+end-if
 /system-property=gov.nih.nci.security.configFile:add(value=@csmconfig.home@/csmconfig/ApplicationSecurityConfig.xml)
  
 ##############################################################
@@ -14,8 +15,14 @@ connect localhost:9999
 ##############################################################
 
 # Add oracle JDBC driver
-#data-source remove --name=csmupt
-#/subsystem=datasources/jdbc-driver=@db.driver.name@:remove
+if (outcome == success) of /subsystem=datasources/data-source=csmupt:read-resource
+data-source remove --name=csmupt
+end-if
+
+if (outcome == success) of /subsystem=datasources/jdbc-driver=@db.driver.name@:read-resource
+/subsystem=datasources/jdbc-driver=@db.driver.name@:remove
+end-if
+
 /subsystem=datasources/jdbc-driver=@db.driver.name@:add( \
     driver-name=@db.driver.name@, \
     driver-module-name=@db.module.name@, \
@@ -45,7 +52,9 @@ reload
 ##############################################################
 #               CSM Login Module                             
 ##############################################################
-#/subsystem=security/security-domain=csmupt/:remove
+if (outcome == success) of /subsystem=security/security-domain=csmupt:read-resource
+/subsystem=security/security-domain=csmupt/:remove
+end-if
 /subsystem=security/security-domain=csmupt/:add(cache-type=default)
 /subsystem=security/security-domain=csmupt/authentication=classic:add( \
     login-modules=[ \   
