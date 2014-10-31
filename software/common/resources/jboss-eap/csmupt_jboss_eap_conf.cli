@@ -55,6 +55,8 @@ reload
 if (outcome == success) of /subsystem=security/security-domain=csmupt:read-resource
 /subsystem=security/security-domain=csmupt/:remove
 end-if
+
+if (outcome != success) of /subsystem=security/security-domain=csmupt:read-resource
 /subsystem=security/security-domain=csmupt/:add(cache-type=default)
 /subsystem=security/security-domain=csmupt/authentication=classic:add( \
     login-modules=[ \   
@@ -66,6 +68,7 @@ end-if
         } \     
     ] \
 ) {allow-resource-service-restart=true}
+end-if
 
 # Execute and reload
 :reload
