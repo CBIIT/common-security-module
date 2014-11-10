@@ -8,9 +8,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L-->
 
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD tiles Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
-
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
 

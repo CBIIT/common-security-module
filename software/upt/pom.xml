@@ -90,29 +90,6 @@ L-->
 		  <version>2.3.16.3</version>
 	</dependency>
 	<dependency>
-		  <groupId>org.apache.struts</groupId>
-		  <artifactId>struts2-tiles3-plugin</artifactId>
-		  <version>2.3.16.3</version>
-		      <exclusions>
-			<exclusion> 
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-core</artifactId>
-			</exclusion>
-			<exclusion> 
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-extras</artifactId>
-			</exclusion>
-			<exclusion> 
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-jsp</artifactId>
-			</exclusion>
-			<exclusion> 
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-jsp</artifactId>
-			</exclusion>
-		      </exclusions>		  
-	</dependency>
-	<dependency>
 		<groupId>org.apache.struts</groupId>
 		<artifactId>struts2-tiles-plugin</artifactId>
 		<version>2.3.16.3</version>
