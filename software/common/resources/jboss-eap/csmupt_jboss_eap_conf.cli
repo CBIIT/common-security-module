@@ -29,7 +29,7 @@ end-if
     driver-class-name=@db.driver.class.name@ \
 ) {allow-resource-service-restart=true}
 
-reload
+#reload
  
 # Add datasource: csmupt
 data-source add \
@@ -44,10 +44,10 @@ data-source add \
     --blocking-timeout-wait-millis=5000 
 data-source enable --name=csmupt
 
-reload
+#reload
 
 /subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "org.bouncycastle","slot" => "main"}])
-reload
+#reload
 
 ##############################################################
 #               CSM Login Module                             
@@ -62,6 +62,9 @@ end-if
 
 if (outcome != success) of /subsystem=security/security-domain=csmupt:read-resource
 /subsystem=security/security-domain=csmupt/:add(cache-type=default)
+end-if
+
+if (outcome != success) of /subsystem=security/security-domain=csmupt/authentication=classic:read-resource 
 /subsystem=security/security-domain=csmupt/authentication=classic:add( \
     login-modules=[ \   
         { \
@@ -75,4 +78,4 @@ if (outcome != success) of /subsystem=security/security-domain=csmupt:read-resou
 end-if
 
 # Execute and reload
-:reload
+reload
