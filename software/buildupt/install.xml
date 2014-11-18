@@ -45,13 +45,13 @@ L-->
 				<copy todir="${modules.home}/modules/oracle" overwrite="true">
 						<fileset dir="${basedir}/common/resources/jboss-eap/modules/oracle"/>
 				</copy>
-				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
 				<property name="database.schema" value="${database.user}"/>
 				<property name="db.driver.name" value="oracle"/>
 				<property name="db.module.name" value="oracle"/>
 				<property name="db.connection.url" value="jdbc:oracle:thin:@${upt.central.database.server}:${upt.central.database.port}:${upt.central.database.name}"/>
 				<property name="db.type" value="oracle"/>
-				<property name="db.driver.jar" value="ojdbc14-10.2.0.3.0.jar"/>
+				<property name="db.driver.jar" value="ojdbc14-10.2.0.4.0.jar"/>
 			</case>
 			<case value="mysql">
 				<mkdir dir="${modules.home}/modules/mysql"/>
@@ -364,7 +364,7 @@ L-->
 		<sequential>
 			<switch value="${database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
 				<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
@@ -670,7 +670,7 @@ L-->
 		<sequential>
 			<switch value="@{database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
 					<property name="database.upgrade.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">

@@ -269,13 +269,13 @@ L-->
 				<copy todir="${target.dir}/modules/oracle" overwrite="true">
 						<fileset dir="../common/resources/jboss-eap/modules/oracle"/>
 				</copy>
-				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
 				<property name="database.schema" value="${database.user}"/>
 				<property name="db.driver.name" value="oracle"/>
 				<property name="db.module.name" value="oracle"/>
 				<property name="db.connection.url" value="jdbc:oracle:thin:@${upt.central.database.server}:${upt.central.database.port}:${upt.central.database.name}"/>
 				<property name="db.type" value="oracle"/>
-				<property name="db.driver.jar" value="ojdbc14-10.2.0.3.0.jar"/>
+				<property name="db.driver.jar" value="ojdbc14-10.2.0.4.0.jar"/>
 			</case>
 			<case value="mysql">
 				<mkdir dir="${target.dir}/modules/mysql"/>
@@ -576,6 +576,8 @@ L-->
 		<copy todir="${dist.exploded.dir}/lib" overwrite="true">
 			<fileset dir="${build-utils.dir}">
 				<include name="mysql-connector-java-5.1.32-bin.jar" />
+				<include name="ojdbc14-10.2.0.4.0.jar" />
+				<include name="postgresql-8.4-701.jdbc3.jar" />
 				<include name="liquibase-core-1.9.3.jar" />
 				<include name="ant-contrib-1.0nci.jar" />
 				<include name="bcprov-jdk15on-147.jar" />
