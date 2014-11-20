@@ -251,7 +251,7 @@ CREATE TABLE CSM_PROTECTION_GROUP (
 
 CREATE SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ
 increment by 1
-start with 1
+start with 10
 NOMAXVALUE
 minvalue 1
 nocycle
