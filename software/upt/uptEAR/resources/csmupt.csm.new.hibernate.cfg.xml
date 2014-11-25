@@ -16,7 +16,7 @@ L-->
 
     <session-factory>
         <!-- properties  -->
-    <property name="dialect">@upt.database.dialect@</property>	
+    <property name="dialect">@database.dialect@</property>	
 	<property name="hibernate.show_sql">false</property>
 	<property name="connection.zeroDateTimeBehavior">convertToNull</property>
 	<property name="connection.datasource">java:/@datasource.jndi.name@</property>
