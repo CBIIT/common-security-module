@@ -395,7 +395,17 @@ L-->
 		<unzip dest="${temp.dir}/uptEAR" src="${dist.exploded.dir}/upt/uptEAR/uptEAR.ear"/>
 
 		<property name="upt.jndi.name.value" value="/${upt.central.jndi.name}"/>
-		<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+		<switch value="${database.type}">
+			<case value="oracle">
+				<property name="upt.database.dialect" value="org.hibernate.dialect.OracleDialect"/>
+			</case>
+			<case value="mysql">
+				<property name="upt.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			</case>
+			<case value="postgresql">
+				<property name="upt.database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			</case>
+		</switch>
 		
 		<!-- unzip uptlogin.war and replace dialect, jndi, repackage war and delete temp dirs -->
 
