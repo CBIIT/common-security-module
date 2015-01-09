@@ -111,7 +111,7 @@ public class DisplayConstants
 
 	public static final String LOGIN_EXCEPTION_MESSAGE = "Invalid Login Credentials OR User Name is locked out due to allow invalid attempts reached.";
 
-	public static final String APPLICATION_DATABASE_CONNECTION_SUCCESSFUL = "Application Database information is valid. Test connection succesful.";
+	public static final String APPLICATION_DATABASE_CONNECTION_SUCCESSFUL = "Application Database information is valid. Test connection successful.";
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED = "Application Database information is not valid. Correct and test connection.";
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL = "Application Database information is not valid. Correct and test connection.  Verify the Database URL.";
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT = "Application Database information is not valid. Correct and test connection.  Verify the URL for Server name and Port number.";

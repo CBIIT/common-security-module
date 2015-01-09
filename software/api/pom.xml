@@ -12,7 +12,7 @@ L-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>gov.nih.nci.csm</groupId>
   <artifactId>csmapi</artifactId>
-  <version>5.1</version>
+  <version>5.2</version>
   <dependencies>
 	<dependency>
 		<groupId>gov.nih.nci</groupId>

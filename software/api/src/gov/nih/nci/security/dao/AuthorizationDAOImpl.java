@@ -2251,6 +2251,120 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getObjects(gov.nih.nci.security.dao.SearchCriteria)
+	 */
+	public List getUsers(SearchCriteria searchCriteria) {
+		System.out.println("AuthorizationDAOImpl getUsers...");
+		Session s = null;
+		List result = new ArrayList();
+		try {
+			//This is a hack (temporary fix) to support wildcard search on AES encrypted values
+			//MySql has inbuilt encrypt and decrypt fucntions, but adopting requires tech stack upgrade for MySQL which is not scope for this fix.
+			List<User> users = getUsers();
+			if(users == null || users.size() == 0)
+				return users;
+			
+			List<User> filteredList = new ArrayList<User>(); 
+			for(User user : users)
+			{
+				Hashtable fieldValues = searchCriteria.getFieldAndValues();
+				Enumeration enKeys= fieldValues.keys();
+				boolean matched = true;
+				while (enKeys.hasMoreElements()) {
+					String fieldKey = (String) enKeys.nextElement();
+					if(fieldKey.equals("loginName"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getLoginName() == null || !user.getLoginName().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+					if(fieldKey.equals("firstName"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getFirstName() == null || !user.getFirstName().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+					if(fieldKey.equals("lastName"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getLastName() == null || !user.getLastName().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+					if(fieldKey.equals("organization"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getOrganization() ==null || !user.getOrganization().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+					if(fieldKey.equals("department"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getDepartment() == null || !user.getDepartment().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+					if(fieldKey.equals("emailId"))
+					{
+						String fieldValue = (String) fieldValues.get(fieldKey);
+						String fieldValue_ = StringUtilities.wildcardToRegex(fieldValue);
+						if(user.getEmailId() == null || !user.getEmailId().matches(fieldValue_))
+						{
+							matched = false;
+							break;
+						}
+					}
+				}
+				if(matched)
+					filteredList.add(user);
+			}
+					
+			Collections.sort(filteredList);
+			return filteredList;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||getUsers|Failure|Error in Obtaining Search Users from Database |"
+								+ ex.getMessage());
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||getUsers|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||getUsers|Success|Successful in Searching Users from the database |");
+		return result;
+	}
+	
 	private List decryptUserInformation(List list) throws CSObjectNotFoundException
 	{
 		Iterator iterator = list.iterator();
@@ -2674,7 +2788,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							 + "|");
 		return list;
 	}
-	
+	 
 	
 
 	public Set getUsers(String groupId) throws CSObjectNotFoundException {

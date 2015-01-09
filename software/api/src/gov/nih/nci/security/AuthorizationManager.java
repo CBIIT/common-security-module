@@ -907,6 +907,9 @@ public interface AuthorizationManager {
 	 */
 	public java.util.List getObjects(SearchCriteria searchCriteria);
 
+
+	public java.util.List getUsers(SearchCriteria searchCriteria);
+	
 	/**
 	 * This method creates a new User in the database based on the data passed
 	 * @param user the User object which is to be created

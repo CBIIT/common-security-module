@@ -993,6 +993,18 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	public java.util.List getObjects(SearchCriteria searchCriteria){
 		return authorizationDAO.getObjects(searchCriteria);
 	}
+
+	/**
+	 * @param searchCriteria
+	 *
+	 * @return java.util.List
+	 * @see gov.nih.nci.security.UserProvisioningManager#getObjects(SearchCriteria)
+	 */
+	public java.util.List getUsers(SearchCriteria searchCriteria){
+		System.out.println("AuthorizationManager getUsers...");
+		return authorizationDAO.getUsers(searchCriteria);
+	}
+	
 	/**
 	 * Method createUser.
 	 * @param user User

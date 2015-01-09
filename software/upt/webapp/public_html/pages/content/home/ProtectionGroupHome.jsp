@@ -96,7 +96,7 @@ function skipNavigation()
 
 									<td class="sidebarTitle" height="20">PROTECTION GROUP LINKS</td>
 								</tr>
-								<s:if test='#session.UPDATE_UPT_PROTECTION_GROUP_OPERATION != null'>
+								<s:if test='#session.CREATE_UPT_PROTECTION_GROUP_OPERATION != null'>
 									<tr>
 										<td class="sidebarContent"><a
 											href="javascript: setAndSubmit('loadAdd')">Create a New

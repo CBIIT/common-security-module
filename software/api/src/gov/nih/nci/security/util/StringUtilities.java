@@ -203,4 +203,35 @@ public class StringUtilities {
 		else
 			return false;
 	}
+	
+	 public static String wildcardToRegex(String wildcardStr){
+		 if(wildcardStr == null || wildcardStr.length() == 0)
+			 return wildcardStr;
+		 
+	        StringBuffer s = new StringBuffer(wildcardStr.length());
+	        s.append('^');
+	        for (int i = 0, is = wildcardStr.length(); i < is; i++) {
+	            char c = wildcardStr.charAt(i);
+	            switch(c) {
+	                case '*':
+	                    s.append(".*");
+	                    break;
+	                case '?':
+	                    s.append(".");
+	                    break;
+	                    // escape special regexp-characters
+	                case '(': case ')': case '[': case ']': case '$':
+	                case '^': case '.': case '{': case '}': case '|':
+	                case '\\':
+	                    s.append("\\");
+	                    s.append(c);
+	                    break;
+	                default:
+	                    s.append(c);
+	                    break;
+	            }
+	        }
+	        s.append('$');
+	        return(s.toString());
+	    }	
 }

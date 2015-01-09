@@ -454,6 +454,8 @@ public interface AuthorizationDAO {
 	 */
 	public java.util.List getObjects(SearchCriteria searchCriteria);
 
+	public java.util.List getUsers(SearchCriteria searchCriteria);
+
 	//public void createUser(User user) throws CSTransactionException;
 
 	public void assignProtectionElements(String protectionGroupId,

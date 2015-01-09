@@ -134,19 +134,19 @@ public class UserSearchCriteria extends SearchCriteria{
 			ht.put("preMigrationLoginName",user.getPreMigrationLoginName());
 		}
 		if(user.getLastName()!=null){
-			ht.put("lastName",getEncryptedString(user.getLastName()));
+			ht.put("lastName",user.getLastName());
 			}
 		if(user.getFirstName()!=null){
-			ht.put("firstName",getEncryptedString(user.getFirstName()));
+			ht.put("firstName",user.getFirstName());
 			}
 		if(user.getOrganization()!=null){
-			ht.put("organization",getEncryptedString(user.getOrganization()));
+			ht.put("organization",user.getOrganization());
 			}
 		if(user.getDepartment()!=null){
-			ht.put("department",getEncryptedString(user.getDepartment()));
+			ht.put("department",user.getDepartment());
 			}
 		if(user.getEmailId()!=null){
-			ht.put("emailId",getEncryptedString(user.getEmailId()));
+			ht.put("emailId",user.getEmailId());
 			}
 		if(ht.size()==0){
 			ht.put("loginName","%");

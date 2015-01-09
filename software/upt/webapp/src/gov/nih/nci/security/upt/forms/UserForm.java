@@ -662,7 +662,14 @@ public class UserForm implements BaseDoubleAssociationForm
 		else this.userMigratedFlag = DisplayConstants.NO;
 
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);
-		List list = userProvisioningManager.getObjects(searchCriteria);
+		List list = null;
+		if(user.getFirstName() != null || user.getLastName() != null || user.getOrganization() != null || user.getEmailId() != null || user.getDepartment() != null)
+		{
+			System.out.println("UserForm getUsers...");	
+			list = userProvisioningManager.getUsers(searchCriteria);
+		}
+		else
+			list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
