@@ -548,5 +548,10 @@ L-->
 		</exclusion>
 	      </exclusions>
 	</dependency>
+	<dependency>
+	  <groupId>com.sun</groupId>
+	  <artifactId>jsse</artifactId>
+	  <version>1.0.3_04</version>
+	</dependency>
 </dependencies>
 </project>
