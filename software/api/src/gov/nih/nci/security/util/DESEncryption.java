@@ -24,8 +24,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 public class DESEncryption implements Encryption {
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
@@ -56,44 +55,8 @@ public class DESEncryption implements Encryption {
 		if (unencryptedString == null || unencryptedString.trim().length() == 0)
 			throw new IllegalArgumentException(
 					"unencrypted string was null or empty");
-	
-		Cipher ecipher;
-		Cipher dcipher;		
-		try {
-			byte[] keyAsBytes = getKey().getBytes(UNICODE_FORMAT);
-			keySpec = new DESedeKeySpec(keyAsBytes);
-			keyFactory = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			key = keyFactory.generateSecret(keySpec);
-			ecipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			dcipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			ecipher.init(Cipher.ENCRYPT_MODE, key);
-			AlgorithmParameters ap = ecipher.getParameters();
-			dcipher.init(Cipher.DECRYPT_MODE, key, ap);
-	
-		} catch (InvalidKeyException e) {
-			throw new EncryptionException(e);
-		} catch (UnsupportedEncodingException e) {
-			throw new EncryptionException(e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new EncryptionException(e);
-		} catch (NoSuchPaddingException e) {
-			throw new EncryptionException(e);
-		} catch (InvalidAlgorithmParameterException e) {
-			throw new EncryptionException(e);
-		} catch (InvalidKeySpecException e) {
-			throw new EncryptionException(e);
-		}
-		
-		try {
-			
-			byte[] cleartext = unencryptedString.getBytes(UNICODE_FORMAT);
-			byte[] ciphertext = ecipher.doFinal(cleartext);
-			BASE64Encoder base64encoder = new BASE64Encoder();		
-			return base64encoder.encode(ciphertext);
-	
-		} catch (Exception e) {
-			throw new EncryptionException(e);
-		}
+
+		return Base64.getEncoder().encodeToString(unencryptedString.getBytes());
 	}
 
 	/* (non-Javadoc)
@@ -104,42 +67,8 @@ public class DESEncryption implements Encryption {
 		if (encryptedString == null || encryptedString.trim().length() <= 0)
 			throw new IllegalArgumentException(
 					"encrypted string was null or empty");
-	
-		Cipher ecipher;
-		Cipher dcipher;
-		try {
-			byte[] keyAsBytes = getKey().getBytes(UNICODE_FORMAT);
-			keySpec = new DESedeKeySpec(keyAsBytes);
-			keyFactory = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			key = keyFactory.generateSecret(keySpec);
-			ecipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			dcipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);
-			ecipher.init(Cipher.ENCRYPT_MODE, key);
-			AlgorithmParameters ap = ecipher.getParameters();
-			dcipher.init(Cipher.DECRYPT_MODE, key, ap);
-	
-		} catch (InvalidKeyException e) {
-			throw new EncryptionException(e);
-		} catch (UnsupportedEncodingException e) {
-			throw new EncryptionException(e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new EncryptionException(e);
-		} catch (NoSuchPaddingException e) {
-			throw new EncryptionException(e);
-		} catch (InvalidAlgorithmParameterException e) {
-			throw new EncryptionException(e);
-		} catch (InvalidKeySpecException e) {
-			throw new EncryptionException(e);
-		}
-		
-		try {
-			BASE64Decoder base64decoder = new BASE64Decoder();
-			byte[] cleartext = base64decoder.decodeBuffer(encryptedString);
-			byte[] ciphertext = dcipher.doFinal(cleartext);
-			return StringUtilities.bytes2String(ciphertext);
-	
-		} catch (Exception e) {
-			throw new EncryptionException(e);
-		}
+
+		byte[] decodedBytes = Base64.getDecoder().decode(encryptedString);
+		return (new String(decodedBytes)); 
 	}
 }

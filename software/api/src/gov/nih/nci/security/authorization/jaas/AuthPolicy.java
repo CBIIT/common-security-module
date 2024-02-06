@@ -130,8 +130,8 @@ import javax.security.auth.Subject;
  * @version 1.0
  * @created 03-Dec-2004 1:17:48 AM
  */
-public class AuthPolicy extends sun.security.provider.PolicyFile {
-
+//public class AuthPolicy extends sun.security.provider.PolicyFile {
+public class AuthPolicy extends java.security.Policy {
 	protected PermissionAdapter _handler;
 
 
